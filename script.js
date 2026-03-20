@@ -153,22 +153,56 @@ document.addEventListener('DOMContentLoaded', function() {
         { char: '–', name: 'короткое тире' }
     ];
 
-    // ========== ФУНКЦИЯ КОПИРОВАНИЯ ==========
+    // ========== ИСПРАВЛЕННАЯ ФУНКЦИЯ КОПИРОВАНИЯ ==========
     function copyToClipboard(text) {
-        navigator.clipboard.writeText(text).then(() => {
-            // Показываем уведомление
-            const notification = document.createElement('div');
-            notification.className = 'copy-notification';
-            notification.textContent = `✅ Скопировано: ${text}`;
-            document.body.appendChild(notification);
-            
-            // Удаляем через 2 секунды
-            setTimeout(() => {
-                notification.remove();
-            }, 2000);
-        }).catch(err => {
-            alert('Не удалось скопировать текст');
-        });
+        // Создаем временный текстовый элемент
+        const tempInput = document.createElement('textarea');
+        tempInput.value = text;
+        tempInput.style.position = 'fixed';
+        tempInput.style.opacity = '0';
+        tempInput.style.pointerEvents = 'none';
+        tempInput.style.left = '0';
+        tempInput.style.top = '0';
+        document.body.appendChild(tempInput);
+        
+        // Выделяем и копируем
+        tempInput.focus();
+        tempInput.select();
+        tempInput.setSelectionRange(0, 99999); // Для мобильных устройств
+        
+        try {
+            // Пробуем современный API сначала
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification(text);
+            }).catch(() => {
+                // Если не сработало, используем execCommand
+                document.execCommand('copy');
+                showNotification(text);
+            });
+        } catch (err) {
+            // Финальный fallback
+            document.execCommand('copy');
+            showNotification(text);
+        }
+        
+        // Удаляем временный элемент
+        document.body.removeChild(tempInput);
+    }
+
+    // Функция показа уведомления
+    function showNotification(text) {
+        const notification = document.createElement('div');
+        notification.className = 'copy-notification';
+        
+        // Обрезаем длинный текст для уведомления
+        const displayText = text.length > 30 ? text.substring(0, 30) + '...' : text;
+        notification.textContent = `✅ Скопировано: ${displayText}`;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.remove();
+        }, 2000);
     }
 
     // ========== СОЗДАНИЕ КОЛОНОК ==========
