@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Шпаргалка для поддержки</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📋 Шпаргалка</h1>
+            <p class="subtitle">Быстрые шаблоны и символы для службы поддержки</p>
+        </header>
+
+        <!-- Переключатель вкладок -->
+        <div class="mode-switcher">
+            <button class="mode-btn active" id="tab-empathy">🤗 Конструктор эмпатии</button>
+            <button class="mode-btn" id="tab-symbols">🔣 Символы</button>
+        </div>
+
+        <!-- Вкладка 1: Конструктор эмпатии -->
+        <div id="panel-empathy" class="tab-panel active">
+            <h2>🤗 Конструктор эмпатии</h2>
+            <p class="tab-hint">Нажмите на любой шаблон — он скопируется в буфер обмена.</p>
+            <div class="columns-container" id="empathy-columns">
+                <!-- Колонки будут созданы скриптом -->
+            </div>
+        </div>
+
+        <!-- Вкладка 2: Символы -->
+        <div id="panel-symbols" class="tab-panel">
+            <h2>🔣 Полезные символы</h2>
+            <p class="tab-hint">Нажмите на символ, чтобы скопировать его.</p>
+            <div class="symbols-grid" id="symbols-grid">
+                <!-- Кнопки с символами будут созданы скриптом -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
